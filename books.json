@@ -1,0 +1,148 @@
+[
+    {
+        "author": "Fabian Frey",
+        "comments": [
+            "jk"
+        ],
+        "description": "-",
+        "difficulties": [
+            3
+        ],
+        "id": 1,
+        "level_end": 2800,
+        "level_start": 1200,
+        "physical_books": [
+            {
+                "give_back_until": "2025-04-03T20:14:59.496524",
+                "id": 101,
+                "is_available": false,
+                "owners": [
+                    {
+                        "end_date": "2024-05-12T10:36:12.666135",
+                        "name": "Tim",
+                        "start_date": "2024-05-12T10:35:58.399629"
+                    },
+                    {
+                        "end_date": "2024-05-14T18:29:18.107990",
+                        "name": "Fabian",
+                        "start_date": "2024-05-14T18:29:05.822554"
+                    },
+                    {
+                        "end_date": "2025-02-06T20:14:43.893129",
+                        "name": "dashjk",
+                        "start_date": "2024-05-14T18:30:03.860834"
+                    },
+                    {
+                        "end_date": null,
+                        "name": "Tim",
+                        "start_date": "2025-02-06T20:14:59.496524"
+                    }
+                ]
+            }
+        ],
+        "stars": [
+            2
+        ],
+        "title": "Psycho(logie) im Schach",
+        "year": 2023
+    },
+    {
+        "author": "Jan Villiger",
+        "comments": [
+            "Mache nur Remis",
+            "11sada"
+        ],
+        "description": "-",
+        "difficulties": [
+            2,
+            2
+        ],
+        "id": 2,
+        "level_end": 3200,
+        "level_start": 2800,
+        "physical_books": [
+            {
+                "give_back_until": "2024-06-11T10:36:32.212250",
+                "id": 201,
+                "is_available": false,
+                "owners": [
+                    {
+                        "end_date": null,
+                        "name": "Peter Svidler",
+                        "start_date": "2024-05-12T10:36:32.212250"
+                    }
+                ]
+            },
+            {
+                "give_back_until": null,
+                "id": 203,
+                "is_available": true,
+                "owners": [
+                    {
+                        "end_date": "2025-07-01T15:47:14.514344",
+                        "name": "fgfjghf",
+                        "start_date": "2024-05-14T22:06:01.403952"
+                    }
+                ]
+            },
+            {
+                "give_back_until": null,
+                "id": 204,
+                "is_available": true,
+                "owners": []
+            }
+        ],
+        "stars": [
+            1,
+            2
+        ],
+        "title": "Grünfeld für Anfänger",
+        "year": 2024
+    },
+    {
+        "author": "Dumeni88",
+        "comments": [
+            "Zu schwer!!",
+            "asdas"
+        ],
+        "description": "Good",
+        "difficulties": [
+            3,
+            3
+        ],
+        "id": 5,
+        "level_end": 7,
+        "level_start": 0,
+        "physical_books": [
+            {
+                "give_back_until": null,
+                "id": 501,
+                "is_available": true,
+                "owners": [
+                    {
+                        "end_date": "2024-05-13T11:05:53.012170",
+                        "name": "Tim",
+                        "start_date": "2024-05-13T11:05:32.207329"
+                    },
+                    {
+                        "end_date": "2024-05-13T14:47:42.376412",
+                        "name": "Franz",
+                        "start_date": "2024-05-13T14:47:31.826555"
+                    }
+                ]
+            },
+            {
+                "give_back_until": null,
+                "id": 502,
+                "is_available": true,
+                "owners": []
+            }
+        ],
+        "stars": [
+            1,
+            3
+        ],
+        "title": "Dumenis Schach Tutorial",
+        "year": 2024
+    }
+]

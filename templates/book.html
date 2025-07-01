@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book {{ book.id }}</title>
+</head>
+<body>
+    <h1>Infos</h1>
+
+    <ul>
+        <li>ID: {{ book.id }}</li>
+        <li>Titel: {{ book.title }}</li>
+        <li>Autor: {{ book.author }}</li>
+        <li>Jahr: {{ book.year }}</li>
+        <li>Level: {{ book.level_start }} - {{ book.level_end }}</li>
+        <li>Beschreibung: {{ book.description }}</li>
+    </ul>
+
+    <h1>Feedback</h1>
+
+    <h2>Sterne: {{ book.get_stars() }}</h2>
+    <!-- <ul>
+        {% for star in book.stars %}
+        <li> {{ star }} </li>
+        {% endfor %}
+    </ul> -->
+
+    <h2>Schwierigkeit: {{ book.get_difficulty() }}</h2>
+    <!-- <ul>
+        {% for diff in book.difficulties %}
+        <li> {{ diff }} </li>
+        {% endfor %}
+    </ul> -->
+
+    <h2>Kommentare</h2>
+    <ul>
+        {% for comment in book.comments %}
+        <li> {{ comment }} </li>
+        {% endfor %}
+    </ul>
+
+    <p>-------------------</p>
+
+    <a href="/processing/remove-feedback/{{ book.id }}">Feedbacks löschen</a>
+
+    <p>-------------------</p>
+
+    <a href="/processing/remove-book/{{ book.id }}">Buch löschen</a>
+    
+</body>
+</html>

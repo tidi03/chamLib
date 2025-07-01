@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library</title>
+
+    <link 
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+        rel="stylesheet" 
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+        crossorigin="anonymous"
+    >
+
+    <link rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link 
+        rel="stylesheet" 
+        type="text/css" 
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    
+
+</head>
+<body>
+    <div class="container-fluid mt-4 px-5">
+
+        <h1 class="display-1">SK Cham Bibliothek</h1>
+
+        <a href="https://skcham.ch">
+            <img src="{{ url_for('static', filename='/img/logo.png') }}" alt="Logo" class="logo_top_corner">
+        </a>
+       
+        <!-- Add a book -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addBookModal">Buch hinzufügen</button>
+        <div class="modal fade" id="addBookModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="purchaseLabel">Buch hinzufügen</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for('add_book') }}" method="post">
+
+                            <div class="form_group mb-2">
+                                <label for="title">Titel:</label>
+                                <input id="title" name="title">
+                            </div>
+                            <div class="form_group mb-2">
+                                <label for="author">Autor:</label>
+                                <input id="author" name="author">
+                            </div>
+                            <div class="form_group mb-2">
+                                <label for="year">Jahr:</label>
+                                <input id="year" name="year">
+                            </div>
+                            <div class="form_group mb-2">
+                                <label for="level_start">Level von:</label>
+                                <input id="level_start" name="level_start">
+                            </div>
+                            <div class="form_group mb-2">
+                                <label for="level_end">Level bis:</label>
+                                <input id="level_end" name="level_end">
+                            </div>
+                            <div class="form_group mb-2">
+                                <label for="description">Beschreibung:</label>
+                                <input id="description" name="description">
+                            </div>
+                            
+                            <button type="submit" class="btn btn-success">Hinzufügen</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Schliessen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add a copy -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCopyModal">Exemplar hinzufügen</button>
+        <div class="modal fade" id="addCopyModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="purchaseLabel">Exemplar hinzufügen</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for('add_copy') }}" method="post">
+
+                            <div class="form_group mb-2">
+                                <label for="book_id">Buch-ID:</label>
+                                <input id="book_id" name="book_id">
+                            </div>
+                            
+                            <button type="submit" class="btn btn-success">Hinzufügen</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Schliessen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Library -->
+        <h1 class="mb-5 mt-5">Bücher</h1>
+
+        {% for book in books %}
+        <div class="card mb-3 border-dark">
+        <div class="row h-100"> <!-- Make the row occupy the full height of the card -->
+
+            <!-- Picture -->
+            <div class="col-md-2">
+                <img src="{{ url_for('static', filename='/img/' + book.get_book_id_str() + '.jpg') }}" class="img-fluid rounded-start h-100" style="object-fit: cover;">
+            </div>
+
+
+            <!-- Info -->
+            <div class="col-md-7">
+                <div class="card-body">
+
+                    <!-- General Information -->
+                    <a href="/book/{{ book.id }}">
+                        <h5>{{book.id}}: {{ book.title }}</h5>
+                    </a>
+                    
+                    <ul>
+                        <li>Autor: {{ book.author }}</li>
+                        <li>Jahr: {{ book.year }}</li>
+                        <li>Level: {{ book.level_start }} - {{ book.level_end }}</li>
+
+                        <!-- Difficulty -->
+                        <li>  
+                            <span>
+                                Schwierigkeit: 
+                                {% if book.get_difficulty_whole() == 1 %}
+                                    <span class="difficulty-dot easy"></span>
+                                {% elif book.get_difficulty_whole() == 2 %}
+                                    <span class="difficulty-dot medium"></span>
+                                    <span class="difficulty-dot medium"></span>
+                                {% elif book.get_difficulty_whole() == 3 %}
+                                    <span class="difficulty-dot hard"></span>
+                                    <span class="difficulty-dot hard"></span>
+                                    <span class="difficulty-dot hard"></span>
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </span>
+                        </li>
+                    </ul>
+
+                    <hr class="hr" />
+
+                    <!-- Number of borrows and rating -->
+                    <div>
+                        {% for i in range(1, 6) %}
+                            {% if i <= book.get_stars_whole() %}
+                                <span class="fa fa-star checked"></span>
+                            {% else %}
+                                <span class="fa fa-star empty"></span>
+                            {% endif %}
+                        {% endfor %}
+
+                        ({{ book.get_times_borrowed() }})
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Borrowing -->
+            <div class="col-md-3">
+                <div class="card-body">
+
+                    <h5>Exemplare</h5>
+                    <ul>
+                        {% for phys_book in book.physical_books %}
+                        <li class="mb-2">
+                            <span>
+                                <a href="/copy/{{ phys_book.id }}">
+                                    ID: {{ phys_book.id }}
+                                </a>
+                                
+                                <span 
+                                    class="availability-dot
+                                    {% if phys_book.is_available %}available{% else %}unavailable{% endif %}"
+                                ></span>
+
+                                
+                                {% if phys_book.is_available %}
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#borrow{{phys_book.id}}Modal">Ausleihen</button>
+                                <div class="modal fade" id="borrow{{phys_book.id}}Modal" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Ausleihen</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{ url_for('borrowing') }}" method="post">
+
+                                                    <div class="form_group mb-2">
+                                                        <label for="phys_id">Buch-ID: </label>
+                                                        <input id="phys_id" name="phys_id" value="{{ phys_book.id }}" readonly>
+                                                    </div>
+                                                    <div class="form_group mb-2">
+                                                        <label for="name">Name:</label>
+                                                        <input id="name" name="name" placeholder="z.B. Max">
+                                                    </div>
+                                                    <div class="form_group mb-4">
+                                                        <label for="n_days">Anzahl Tage:</label>
+                                                        <input id="n_days" name="n_days" placeholder="z.B. 14">
+                                                    </div>
+                                                    
+                                                    <button type="submit" class="btn btn-success">Ausleihen</button>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Schliessen</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <button type="button" class="btn btn-{% if phys_book.is_late() %}danger{% else %}secondary{% endif %}" data-toggle="modal" data-target="#return{{phys_book.id}}Modal">Zurückgeben</button>
+                                <div class="modal fade" id="return{{phys_book.id}}Modal" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Zurückgeben</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{ url_for('returning') }}" method="post">
+                                                    <div class="form_group mb-2">
+                                                        <label for="phys_id">Buch-ID:</label>
+                                                        <input id="phys_id" name="phys_id" value="{{ phys_book.id }}" readonly>
+                                                    </div>
+                                                    <div class="form_group mb-2">
+                                                        <label for="stars">Sterne:</label>
+                                                        <input id="stars" name="stars" placeholder="1-5">
+                                                    </div>
+                                                    <div class="form_group mb-2">
+                                                        <label for="diff">Schwierigkeit:</label>
+                                                        <input id="diff" name="diff" placeholder="1-3">
+                                                    </div>
+                
+                                                    <div class="form_group mb-4">
+                                                        <label for="comment">Kommentar:</label>
+                                                        <input id="comment" name="comment">
+                                                    </div>
+                                                    
+                                                    <button type="submit" class="btn btn-{% if phys_book.is_late() %}danger{% else %}secondary{% endif %}">Zurückgeben</button>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Schliessen</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+
+
+                            </span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>

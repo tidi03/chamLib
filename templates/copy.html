@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copy {{ copy.id }}</title>
+</head>
+<body>
+    <h1>Infos</h1>
+    <ul>
+        <li> ID: {{ copy.id }} </li>
+        <li> Ist Verfügbar: {{ copy.is_available }} </li>
+        <li> Ausgeliehen von: {{ copy.get_current_owner_name() }}</li>
+        <li> Ausgeliehen bis: {{ copy.give_back_until }} </li>
+    </ul>
+
+    <h2>Alte Besitzer</h2>
+    <ul>
+        {% for owner in copy.owners %}
+        <li> {{ owner.name }}: {{ owner.start_date }} bis {{ owner.end_date }}</li>
+        {% endfor %}
+    </ul>
+    
+    <p>-------------------</p>
+
+    <a href="/processing/remove-history/{{ copy.id }}">Historie löschen</a>
+
+    <p>-------------------</p>
+
+    <a href="/processing/remove-copy/{{ copy.id }}">Exemplar löschen</a>
+</body>
+</html>
