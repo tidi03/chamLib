@@ -8,16 +8,6 @@ class Library:
     def __init__(self):
         self.books: List[Book] = []
 
-    # def save_as_pickle(self, filename):
-    #     with open(filename, "wb") as file: 
-    #         pickle.dump(self.books, file)
-    #     print(f"Saved library to {filename}")
-
-    # def load_from_pickle(self, filename):
-    #     with open(filename, "rb") as file: 
-    #         self.books = pickle.load(file)
-    #     print(f"Loaded library from {filename}")
-
     def save_as_json(self, filename):
         with open(filename, 'w', encoding='utf-8') as file:
             json.dump(self.books, file, default=vars, ensure_ascii=False, sort_keys=True, indent=4)

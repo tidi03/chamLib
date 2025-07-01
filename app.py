@@ -9,9 +9,10 @@ import time
 books_filename = "books.json"
 
 sk_cham_lib = Library()
+sk_cham_lib.load_from_json(books_filename)
 
 app = Flask(__name__)
-
+app.run()
 
 # *** Routes ***
 
@@ -209,11 +210,3 @@ def raw_data():
         sk_cham_lib.get_json(),
         mimetype='application/json'
     )
-
-
-if __name__ == '__main__':
-    # Load library
-    sk_cham_lib.load_from_json(books_filename)
-
-    # Run app
-    app.run(debug=True, port=8000) # Use debug=True for debugging
