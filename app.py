@@ -28,9 +28,13 @@ users['admin'] = os.environ.get("ADMIN_PASSWORD", "admin")
 
 @app.route("/")
 def library():
-    books = sk_cham_lib.books
+
     username = session.get('username', 'anonymous')
-    return render_template("library.html", books=books, username=username)
+
+    books = sk_cham_lib.books
+    my_books = sk_cham_lib.get_my_books(username)
+
+    return render_template("library.html", books=books, my_books=my_books, username=username)
 
 
 # Login
@@ -94,8 +98,10 @@ def returning():
         stars = int(request.form.get("stars"))
         diff = int(request.form.get("diff"))
         comment = request.form.get("comment")
-        
-        sk_cham_lib.give_back(phys_id=id, stars=stars, difficulty=diff, comment=comment)
+
+        username = session.get('username')
+
+        sk_cham_lib.give_back(phys_id=id, username=username, stars=stars, difficulty=diff, comment=comment)
     except Exception as e:
         print(e)
         print("Returning book failed")

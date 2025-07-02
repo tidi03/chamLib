@@ -147,6 +147,12 @@ class PhysicalBook:
             return False
         else:
             return True if datetime.now() > datetime.fromisoformat(self.give_back_until) else False
+        
+    def is_borrowed_by(self, username:str):
+        if not self.is_available and self.owners:
+            return self.owners[-1].name == username
+        
+        return False
                 
     def __str__(self):
         return f"""

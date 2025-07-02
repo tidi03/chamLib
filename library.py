@@ -18,9 +18,6 @@ class Library:
             self.books = json.load(file, cls=BookDecoder)
         print(f"Loaded library from {filename}")
 
-    def generate_csv(self):
-        pass # TODO
-
     # Add and remove stuff
     def add_book(self, title, author, year, level_start, level_end, description): 
         book = Book(
@@ -36,6 +33,7 @@ class Library:
         print(f"Added {book.id}: {book.title} to library")
 
     def remove_book(self, book_id):
+
         index = -1 # Get index from book_id
         for i, book in enumerate(self.books):
             if book.id == book_id:
@@ -43,10 +41,14 @@ class Library:
                 break
 
         if index == -1:
-            print(f"Removing book failed: ID does not exist")
-        else:
-            del self.books[index]
-            print(f"Removed {book_id} from library")
+            raise ValueError(f"Removing book failed: ID {book_id} does not exist")
+        
+        for phys_book in self.books[index].physical_books:
+            self.remove_copy(phys_book.id) # Remove all copies first
+
+        self.books.pop(index)
+        print(f"Removed {book_id} from library")
+
 
     def add_copy(self, book_id):
         book = self.get_book_by_id(book_id)
@@ -65,11 +67,30 @@ class Library:
             print("No book with this ID")
             return
 
-        book.remove_copy(phys_id)
+        # Find index of physical book
+        index = -1
+        for i, phys_book in enumerate(book.physical_books):
+            if phys_book.id == phys_id:
+                index = i
+                break
+        
+        if index == -1:
+            raise ValueError(f"Removing copy failed: Physical ID {phys_id} does not exist")
+        
+        book.physical_books.pop(index) # Remove copy
         print(f"Removed {phys_id} from library")
 
 
     # Get stuff
+    def get_my_books(self, username):
+        my_books = []
+        for book in self.books:
+            for phys_book in book.physical_books:
+                if not phys_book.is_available and phys_book.owners[-1].name == username:
+                    my_books.append(phys_book)
+        
+        return my_books
+
     def get_next_id(self):
         # First book -> 1
         if not self.books:
@@ -104,6 +125,7 @@ class Library:
 
         return None
     
+
     # Borrowing logic and checks
     def check_too_late(self):
         now = datetime.now()
@@ -118,12 +140,10 @@ class Library:
         phys_b = self.get_physical_book_by_id(phys_id)
 
         if phys_b is None:
-            print("Borrowing failed. No copy with this ID")
-            return
+            raise ValueError("No copy with this ID")
         
         if not phys_b.is_available:
-            print("Borrowing failed. Book is already borrowed")
-            return
+            raise ValueError("Book is already borrowed")
 
         now = datetime.now()
 
@@ -133,21 +153,21 @@ class Library:
 
         print(f"Borrowed book: {phys_b.id}")
         
-    def give_back(self, phys_id, stars, comment, difficulty):
+    def give_back(self, username, phys_id, stars, comment, difficulty):
         book = self.get_book_by_id(self.get_book_id_from_physical_id(phys_id))
         phys_book = self.get_physical_book_by_id(phys_id)
 
         if book is None:
-            print("Returning failed. No book with this ID")
-            return
+            raise ValueError("No book with this ID")
         
         if phys_book is None:
-            print("Returning failed. No copy with this ID")
-            return
+            raise ValueError("No copy with this ID")
 
         if phys_book.is_available:
-            print("Returning failed. Book has not been borrowed")
-            return
+            raise ValueError("Book has not been borrowed")
+        
+        if username != 'admin' and phys_book.owners[-1].name != username:
+            raise ValueError(f"Book has not been borrowed by {username}")
         
         now = datetime.now()
 

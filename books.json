@@ -61,26 +61,39 @@
         "author": "Jan Villiger",
         "comments": [
             "Mache nur Remis",
-            "11sada"
+            "11sada",
+            "asd",
+            "asdds",
+            "asdasd",
+            "asdas"
         ],
         "description": "-",
         "difficulties": [
             2,
-            2
+            2,
+            2,
+            3,
+            3,
+            1
         ],
         "id": 2,
         "level_end": 3200,
         "level_start": 2800,
         "physical_books": [
             {
-                "give_back_until": "2024-06-11T10:36:32.212250",
+                "give_back_until": null,
                 "id": 201,
-                "is_available": false,
+                "is_available": true,
                 "owners": [
                     {
-                        "end_date": null,
+                        "end_date": "2025-07-02T16:35:41.148697",
                         "name": "Peter Svidler",
                         "start_date": "2024-05-12T10:36:32.212250"
+                    },
+                    {
+                        "end_date": "2025-07-02T16:46:45.599392",
+                        "name": "Alice",
+                        "start_date": "2025-07-02T16:46:31.334069"
                     }
                 ]
             },
@@ -93,16 +106,21 @@
                         "end_date": "2025-07-01T15:47:14.514344",
                         "name": "fgfjghf",
                         "start_date": "2024-05-14T22:06:01.403952"
+                    },
+                    {
+                        "end_date": "2025-07-02T16:37:06.578389",
+                        "name": "Alice",
+                        "start_date": "2025-07-02T16:36:47.377952"
                     }
                 ]
             },
             {
-                "give_back_until": "2025-07-16T14:35:03.967401",
+                "give_back_until": null,
                 "id": 204,
-                "is_available": false,
+                "is_available": true,
                 "owners": [
                     {
-                        "end_date": null,
+                        "end_date": "2025-07-02T16:36:23.183790",
                         "name": "alice",
                         "start_date": "2025-07-02T14:35:03.967401"
                     }
@@ -111,6 +129,10 @@
         ],
         "stars": [
             1,
+            2,
+            2,
+            4,
+            2,
             2
         ],
         "title": "Grünfeld für Anfänger",
