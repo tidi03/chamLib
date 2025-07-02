@@ -29,8 +29,11 @@ users['admin'] = os.environ.get("ADMIN_PASSWORD", "admin")
 @app.route("/")
 def library():
 
-    username = session.get('username', 'anonymous')
+    if 'username' not in session:
+        print("User not logged in")
+        return redirect(url_for("login"))
 
+    username = session.get('username')
     books = sk_cham_lib.books
     my_books = sk_cham_lib.get_my_books(username)
 
@@ -120,6 +123,10 @@ def returning():
 
 @app.route("/copy/<phys_id>")
 def copy_view(phys_id):
+    if 'username' not in session:
+        print("User not logged in")
+        return redirect(url_for("login"))
+
     try:
         copy = sk_cham_lib.get_physical_book_by_id(int(phys_id))
         print(copy)
@@ -131,6 +138,10 @@ def copy_view(phys_id):
     
 @app.route("/book/<book_id>")
 def book_view(book_id):
+    if 'username' not in session:
+        print("User not logged in")
+        return redirect(url_for("login"))
+
     try:
         book = sk_cham_lib.get_book_by_id(int(book_id))
         print(book)
@@ -145,7 +156,7 @@ def book_view(book_id):
 
 @app.route("/processing/add-book/", methods =["POST"])
 def add_book():
-    if session.get('username') != 'admin':
+    if 'username' not in session or session.get('username') != 'admin':
         return "Unauthorized", 403
 
     try:
@@ -176,7 +187,7 @@ def add_book():
 
 @app.route("/processing/add-copy/", methods =["POST"])
 def add_copy():
-    if session.get('username') != 'admin':
+    if 'username' not in session or session.get('username') != 'admin':
         return "Unauthorized", 403
 
     try:
@@ -197,7 +208,7 @@ def add_copy():
 
 @app.route("/processing/remove-book/<book_id>")
 def remove_book(book_id):
-    if session.get('username') != 'admin':
+    if 'username' not in session or session.get('username') != 'admin':
         return "Unauthorized", 403
 
     try:
@@ -216,7 +227,7 @@ def remove_book(book_id):
 
 @app.route("/processing/remove-feedback/<book_id>")
 def remove_feedback(book_id):
-    if session.get('username') != 'admin':
+    if 'username' not in session or session.get('username') != 'admin':
         return "Unauthorized", 403
 
     try:
@@ -235,7 +246,7 @@ def remove_feedback(book_id):
 
 @app.route("/processing/remove-copy/<phys_id>")
 def remove_copy(phys_id):
-    if session.get('username') != 'admin':
+    if 'username' not in session or session.get('username') != 'admin':
         return "Unauthorized", 403
 
     try:
@@ -254,7 +265,7 @@ def remove_copy(phys_id):
 
 @app.route("/processing/remove-history/<phys_id>")
 def remove_history(phys_id):
-    if session.get('username') != 'admin':
+    if 'username' not in session or session.get('username') != 'admin':
         return "Unauthorized", 403
 
     try:
@@ -276,6 +287,9 @@ def remove_history(phys_id):
 
 @app.route("/raw/")
 def raw_data():
+    if 'username' not in session or session.get('username') != 'admin':
+        return "Unauthorized", 403
+
     return Response(
         sk_cham_lib.get_json(),
         mimetype='application/json'
