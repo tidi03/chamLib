@@ -96,13 +96,13 @@ class Book:
         return len(self.stars)
 
     def get_stars(self):
-        return 0 if len(self.stars) == 0 else np.mean(self.stars)
+        return 0 if len(self.stars) == 0 else np.round(np.mean(self.stars), 1)
     
     def get_stars_whole(self):
         return round(self.get_stars())
     
     def get_difficulty(self):
-        return 0 if len(self.difficulties) == 0 else np.mean(self.difficulties)
+        return 0 if len(self.difficulties) == 0 else np.round(np.mean(self.difficulties), 1)
 
     def get_difficulty_whole(self):
         return round(self.get_difficulty())
@@ -135,6 +135,9 @@ class PhysicalBook:
         self.is_available = True
         self.give_back_until = None 
         self.owners: List[Owner] = []
+
+    def get_give_back_until_pretty_string(self):
+        return datetime.fromisoformat(self.give_back_until).strftime("%d.%m.%Y %H:%M") if self.give_back_until else "N/A"
 
     def get_current_owner_name(self):
         return self.owners[-1].name if not self.is_available else "Ist verfügbar"

@@ -1,0 +1,37 @@
+
+
+ <!-- <h1>Infos</h1>
+
+        <ul>
+            <li> ID: {{ copy.id }} </li>
+            <li>
+                <span class="badge {{ 'bg-success' if copy.is_available else 'bg-danger' }}">
+                    {{ 'verfügbar' if copy.is_available else 'nicht verfügbar' }}
+                </span>
+            </li>
+
+            {{ if not copy.is_available }}
+            <li> Ausgeliehen von: {{ copy.get_current_owner_name() }}</li>
+            <li> Ausgeliehen bis: {{ copy.get_give_back_until_pretty_string() }} </li>
+            {{ endif }}
+        </ul>
+
+        {% if username == 'admin' %}
+
+        <h2>Alte Besitzer</h2>
+        <ul>
+            {% for owner in copy.owners %}
+            <li> {{ owner.name }}: {{ owner.start_date }} bis {{ owner.end_date }}</li>
+            {% endfor %}
+        </ul>
+
+        <p>-------------------</p>
+
+        <a href="/processing/remove-history/{{ copy.id }}">Historie löschen</a>
+
+        <p>-------------------</p>
+
+        <a href="/processing/remove-copy/{{ copy.id }}">Exemplar löschen</a>
+
+        {% endif %} -->
+        

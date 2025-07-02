@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ book.title }}</title>
+    <title>Status</title>
 
     <link 
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
@@ -21,62 +21,40 @@
         href="{{ url_for('static', filename='css/style.css') }}"
     >
 
-    
-
 </head>
 <body>
     <div class="container-fluid mt-4 px-5">
 
-        <div class="mb-3">
-            <a href="/" class="text-decoration-none text-dark">
-                <h1 class="display-1">SK Cham Bibliothek</h1>
-            </a>  
-        </div>
+        <a href="/" class="text-decoration-none text-dark">
+            <h1 class="display-1">SK Cham Bibliothek</h1>
+        </a>    
 
         <a href="https://skcham.ch">
             <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="logo_top_corner">
         </a>
-
-        <h1>Infos</h1>
-
-    <ul>
-        <li>ID: {{ book.id }}</li>
-        <li>Titel: {{ book.title }}</li>
-        <li>Autor: {{ book.author }}</li>
-        <li>Jahr: {{ book.year }}</li>
-        <li>Level: {{ book.level_start }} - {{ book.level_end }}</li>
         
-    </ul>
+            <div class="container d-flex justify-content-center">
+                <div class="card shadow-sm mt-5" style="width: 100%; max-width: 600px;">
+                    <div class="card-body">
 
-    <h4>Beschreibung </h4>
-    <p>{{ book.description }}</p>
+                        {% if action == 'borrowed' %}
 
-    <h1>Feedback</h1>
+                        <h1 class="mb-5 mt-5">Buch erfolgreich ausgeliehen.</h1>
+                            
+                        {% elif action == 'returned' %}
+                        
+                        <h1 class="mb-5 mt-5">Buch erfolgreich zurückgegeben.</h1>
+                        
+                        {% else %}
+                        
+                        <h1 class="mb-5 mt-5">Ein Fehler ist aufgetreten.</h1>
 
-    <ul>
-        <li>Sterne: {{ book.get_stars() }} / 5</li>
-        <li>Schwierigkeit: {{ book.get_difficulty() }} / 3</li>
-    </ul>
+                        {% endif %}
+                        
+                        <a href="/" class="btn btn-primary">Zurück zur Bibliothek</a>
+                </div>
+            </div>
 
-    <h4>Kommentare</h2>
-    <ul>
-        {% for comment in book.comments %}
-        <li> {{ comment }} </li>
-        {% endfor %}
-    </ul>
-
-    {% if username == 'admin' %}
-
-    <p>-------------------</p>
-
-    <a href="/processing/remove-feedback/{{ book.id }}">Feedbacks löschen</a>
-
-    <p>-------------------</p>
-
-    <a href="/processing/remove-book/{{ book.id }}">Buch löschen</a>
-
-    {% endif %}
-        
     </div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
