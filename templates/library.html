@@ -316,9 +316,18 @@
                                                         <label for="phys_id">Buch-ID: </label>
                                                         <input id="phys_id" name="phys_id" value="{{ phys_book.id }}" readonly>
                                                     </div>
-                                                    <div class="form_group mb-4">
-                                                        <label for="n_days">Anzahl Tage:</label>
-                                                        <input id="n_days" name="n_days" placeholder="z.B. 14">
+                                                    <div class="form-group mb-2">
+                                                        <label for="n_days">Sterne:</label>
+                                                        <input 
+                                                            id="n_days" 
+                                                            name="n_days" 
+                                                            type="number" 
+                                                            class="form-control" 
+                                                            placeholder="1-90" 
+                                                            min="1" 
+                                                            max="90" 
+                                                            required
+                                                        >
                                                     </div>
                                                     
                                                     <button type="submit" class="btn btn-success">Ausleihen</button>
