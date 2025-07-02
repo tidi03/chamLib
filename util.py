@@ -121,7 +121,6 @@ Comments: {self.comments},
 Physical copies: {[phys_b for phys_b in self.physical_books]}
 """
     
-
 class PhysicalBook:
     def __init__(self, id:int, is_available:bool=True, give_back_until:str=None, owners=None):
         self.id = id # 100 * book_id + copy_n
@@ -159,7 +158,6 @@ class PhysicalBook:
 ID: {self.id}, Is available: {self.is_available}, Give back until: {self.give_back_until},
 Owners: {[owner for owner in self.owners]}
 """
-    
 
 class Owner:
     def __init__(self, name:str, start_date:str, end_date:str=None):
@@ -219,5 +217,3 @@ class OwnerDecoder(json.JSONDecoder):
                                 start_date=od['start_date'],
                                 end_date=od['end_date']))
         return owners
-
-

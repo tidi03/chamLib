@@ -27,7 +27,7 @@
 <body>
     <div class="container-fluid mt-4 px-5">
 
-        <div class="mb-3">
+        <div class="mb-5">
             <a href="/" class="text-decoration-none text-dark">
                 <h1 class="display-1">SK Cham Bibliothek</h1>
             </a>  
@@ -117,9 +117,12 @@
         <!-- Login / Logout -->
 
         {% if username == 'anonymous' %}
-        <a href="/login/" class="btn btn-primary">Anmelden</a>
+        <a href="/login/" class="btn btn-primary me-2">Anmelden</a>
         {% else %}
-        <span class="btn btn-secondary disabled">Angemeldet als {{ username }}</span>
+        <span class="btn btn-secondary disabled me-2">
+            Angemeldet als {{ username }}
+        </span>
+
         <a href="/logout/" class="btn btn-primary">Abmelden</a>
         {% endif %}
 
@@ -215,13 +218,14 @@
         <div class="row h-100"> <!-- Make the row occupy the full height of the card -->
 
             <!-- Picture -->
-            <div class="col-md-2">
-                <a href="/book/{{ book.id }}" class="text-decoration-none text-dark">
+            <div class="col-4 col-sm-3 col-md-2">
+                <a href="/book/{{ book.id }}" class="d-block h-100 text-decoration-none text-dark">
+                    <div class="img-container h-100">
                     <img 
-                        src="{{ url_for('static', filename='/img/' + book.get_book_id_str() + '.jpg') }}"
-                        class="img-fluid rounded-start" 
-                        style="max-height: 120px; object-fit: cover; width: 100%;"
+                        src="{{ url_for('static', filename='img/' + book.get_book_id_str() + '.jpg') }}" 
+                        alt="{{ book.title }}"
                     >
+                    </div>
                 </a>
             </div>
 
